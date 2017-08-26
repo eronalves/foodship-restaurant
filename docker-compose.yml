@@ -1,0 +1,26 @@
+version: '2'
+
+services:
+
+  foodship-restaurant:
+    build:
+      context: .
+    command: java -jar /home/app/foodship-restaurant/target/foodship-restaurant-0.1.0-SNAPSHOT-standalone.jar 8085
+    container_name: foodship-restaurant
+    image: foodship-restaurant
+    ports:
+     - "8085:8085"
+    environment:
+     - VIRTUAL_HOST=foodshiprestaurant
+     - VIRTUAL_PORT=8085
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+    environment:
+     - DEFAULT_HOST=foodshiprestaurant
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+      
