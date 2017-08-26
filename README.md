@@ -1,4 +1,4 @@
-## Foodship Restaurant
+## Foodship Restaurant [![CircleCI](https://circleci.com/gh/eronalves/foodship-restaurant.svg?style=svg&circle-token=a1f1236f88cd2ac35ea224293077016dcfa6e42a)](https://circleci.com/gh/eronalves/foodship-restaurant) [![codecov](https://codecov.io/gh/eronalves/foodship-restaurant/branch/master/graph/badge.svg)](https://codecov.io/gh/eronalves/foodship-restaurant)
 
 Clojure application to provide an API with basic features to manage restaurants and menus.
 
