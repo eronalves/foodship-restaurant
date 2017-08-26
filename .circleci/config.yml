@@ -1,0 +1,26 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/foodship-restaurant
+    docker:
+      - image: circleci/clojure:lein-2.7.1
+    environment:
+      LEIN_ROOT: true
+      JVM_OPTS: -Xmx3200m
+    steps:
+      - checkout
+      - restore_cache:
+          keys: 
+          - foodship-restaurant-{{ checksum "project.clj" }}
+          # fallback to using the latest cache if no exact match is found
+          - foodship-restaurant-
+      - run: lein deps
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: foodship-restaurant-{{ checksum "project.clj" }}
+      - run: lein do clean, test :all, uberjar, cloverage --codecov
+      - run: curl -s https://codecov.io/bash | bash -s - -t 5f83a5d8-79f5-4497-b912-6bd0dcbf9587 -f target/coverage/codecov.json
+
+      - store_artifacts:
+          path: target/coverage
