@@ -4,7 +4,7 @@
             [compojure.api.sweet :refer :all]
             [compojure.api.exception :as ex]
             [environ.core :refer [env]]
-            [foodship-restaurant.ports.handler.routes.search :as search]))
+            [foodship-restaurant.ports.handler.routes.restaurant :as restaurant]))
 
 (def api-version "v1")
 (def api-context (str "/api/" api-version))
@@ -30,7 +30,7 @@
         (ok "Welcome to Foodship Restaurant. Access the url /api-docs for further information about this API"))
 
       (context api-context []
-        (search/context-routes))
+        (restaurant/context-routes))
 
       (undocumented
         (route/not-found (ok "Not Found")))))

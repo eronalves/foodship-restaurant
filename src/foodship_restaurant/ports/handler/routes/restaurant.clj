@@ -1,4 +1,4 @@
-(ns foodship-restaurant.ports.handler.routes.search
+(ns foodship-restaurant.ports.handler.routes.restaurant
   (:require 
     [compojure.route :as route]
     [ring.util.http-response :refer :all]
@@ -7,15 +7,18 @@
     [foodship-restaurant.domain.controller :as controller]
     [foodship-restaurant.helpers.keywords :refer [transform-keywords]]))
 
+(s/defschema FilterData 
+  {(s/optional-key :name) s/Str
+   (s/optional-key :tags) [s/Str]})
+
 (defn context-routes []
   (context "/restaurants" []
     :tags ["restaurants"]
 
     (GET "/" []
       :components [domain-controller]
-      :query-params [name :- String, tags :- [String]]
-      (println name tags)
-      (ok (controller/restaurants domain-controller name tags)))
+      :query [filter FilterData]
+      (ok (transform-keywords (controller/restaurants domain-controller (:name filter) (:tags filter)))))
 
     (context "/:id" []
       :path-params [id :- s/Int]
