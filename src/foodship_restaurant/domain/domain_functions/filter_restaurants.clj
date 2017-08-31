@@ -1,9 +1,18 @@
 (ns foodship-restaurant.domain.domain-functions.filter-restaurants
   (:require [clojure.string :as s]))
 
+(defn- deaccent [str]
+  "Remove accent from string"
+  (let [normalized (java.text.Normalizer/normalize str java.text.Normalizer$Form/NFD)]
+    (clojure.string/replace normalized #"\p{InCombiningDiacriticalMarks}+" "")))
+
 (defn- by-name [restaurant name]
   (if (not (nil? name))
-    (s/includes? (:restaurant/name restaurant) name)
+    (s/includes? 
+      (clojure.string/upper-case
+        (deaccent (:restaurant/name restaurant))) 
+      (clojure.string/upper-case 
+        (deaccent name)))
     true))
 
 (defn- by-tags [restaurant tags]

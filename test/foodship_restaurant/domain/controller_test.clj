@@ -6,7 +6,7 @@
 
 (use-fixtures :once (setup-custom-with-lifecycle {:db {}}))
 
-(deftest get-restaurant 
-  (testing "must be return the info of restaurant"
-    (is (= {:name "America"} (controller/get-restaurant component 1)))))
+; (deftest get-restaurant 
+;   (testing "must be return the info of restaurant"
+;     (is (= {:name "America"} (controller/get-restaurant component 1)))))
 
