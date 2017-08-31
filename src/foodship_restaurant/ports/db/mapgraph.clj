@@ -2,6 +2,7 @@
   (:require 
     [com.stuartsierra.mapgraph :as mg]
     [com.stuartsierra.component :as component]
+    [clojure.string :as s]
     [foodship-restaurant.ports.db.data.initial-data :as initial-data]))
 
 (defn retrieve-restaurant [component id]
@@ -13,10 +14,12 @@
   (get @(:db component) [:restaurant/id id]))
 
 (defn all [component]
-  @(:db component))
+  (vals 
+    (filter 
+      (fn [[k v]] (s/includes? k "restaurant/id")) 
+      @(:db component))))
 
 (defn insert-restaurant! [component restaurant]
-  ; (println "INSERT" restaurant)
   (dosync
     (alter (:db component) mg/add restaurant)
     (retrieve-restaurant component (:id restaurant))))
