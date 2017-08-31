@@ -48,7 +48,7 @@
       (is (not (nil? filteredData)))
       (is (= (count filteredData) 0)))))
 
-(deftest by-name-and-tags-only-tags
+(deftest by-name-and-tags
   (testing "must be filter by name and tags"
     (let [filteredData (filter/by-name-and-tags restaurants "mex" ["mexican", "japanese"])]
       (is (not (nil? filteredData)))
