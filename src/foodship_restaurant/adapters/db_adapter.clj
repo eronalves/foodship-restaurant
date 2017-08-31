@@ -2,13 +2,10 @@
   (:require 
     [foodship-restaurant.ports.db.mapgraph :as mapgraph]))
 
-(defprotocol IDatabase
-  (retrieve [this id] "Retrieve a restaurant from repository"))
+(defn retrieve [component id]
+  (mapgraph/get-restaurant (:memory-db component) id))
 
-(defrecord DBAdapter [memory-db]
-  IDatabase
-  (retrieve [this id]
-    (mapgraph/retrieve-restaurant (:memory-db this) id)))
-    
-(defn create []
-  (map->DBAdapter {}))
+(defn all [component]
+  (println "chegou 2")
+  (mapgraph/all (:memory-db component)))
+

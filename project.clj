@@ -8,7 +8,8 @@
                  [metosin/compojure-api "1.1.11"]
                  [clj-time "0.14.0"]
                  [com.stuartsierra/mapgraph "0.2.1"]
-                 [com.stuartsierra/component "0.3.2"]]
+                 [com.stuartsierra/component "0.3.2"]
+                 [prismatic/schema "1.1.6"]]
   :plugins [[lein-environ "1.1.0"]
             [lein-cloverage "1.0.9"]]
   :repl-options {:init-ns user}
