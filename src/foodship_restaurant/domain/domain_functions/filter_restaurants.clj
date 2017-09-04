@@ -10,14 +10,14 @@
   (if (not (nil? name))
     (s/includes? 
       (clojure.string/upper-case
-        (deaccent (:restaurant/name restaurant))) 
+        (deaccent (:name restaurant))) 
       (clojure.string/upper-case 
         (deaccent name)))
     true))
 
 (defn- by-tags [restaurant tags]
   (if (not (empty? tags))
-    (> (count (clojure.set/intersection (set (:restaurant/tags restaurant)) (set tags))) 0)
+    (> (count (clojure.set/intersection (set (:tags restaurant)) (set tags))) 0)
     true))
 
 (defn by-name-and-tags [restaurants name tags]

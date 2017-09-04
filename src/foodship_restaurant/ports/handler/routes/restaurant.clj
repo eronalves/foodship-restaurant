@@ -4,8 +4,7 @@
     [ring.util.http-response :refer :all]
     [compojure.api.sweet :refer :all]
     [schema.core :as s]
-    [foodship-restaurant.domain.controller :as controller]
-    [foodship-restaurant.helpers.keywords :refer [transform-keywords]]))
+    [foodship-restaurant.domain.controller :as controller]))
 
 (s/defschema FilterData 
   {(s/optional-key :name) s/Str
@@ -18,11 +17,11 @@
     (GET "/" []
       :components [domain-controller]
       :query [filter FilterData]
-      (ok (transform-keywords (controller/restaurants domain-controller (:name filter) (:tags filter)))))
+      (ok (controller/restaurants domain-controller (:name filter) (:tags filter))))
 
     (context "/:id" []
       :path-params [id :- s/Int]
 
       (GET "/" []
         :components [domain-controller]
-        (ok (transform-keywords (controller/get-restaurant domain-controller id)))))))
+        (ok (controller/get-restaurant domain-controller id))))))
