@@ -1,26 +1,13 @@
 (ns foodship-restaurant.ports.handler.routes.restaurant-test
   (:require
     [clojure.test :refer :all]
-    [ring.mock.request :as mock]
     [bond.james :as bond :refer [with-stub!]]
-    [cheshire.core :as cheshire]
+    [foodship-restaurant.ports.handler.routes.routes-util-test :as util]
     [foodship-restaurant.ports.handler.components :as components]
     [foodship-restaurant.domain.controller :as controller]))
 
 (def app (components/make-handler {:domain-controller {} :deps [:domain-controller]}))
 (def restaurant-route "/api/v1/restaurants")
-
-(defn- parse-body [body]
-  (cheshire/parse-string (slurp body) true))
-
-(defn- mock-post [route body]
-  (app 
-    (-> (mock/request :post route)
-        (mock/content-type "application/json")
-        (mock/body  (cheshire/generate-string body)))))
-
-(defn- mock-get [route]
-  (app (-> (mock/request :get route))))
 
 (def restaurants-coll
   [{:name "Mexicaníssimo" :tags ["mexican"]}
@@ -31,8 +18,8 @@
 (deftest restaurants
   (testing "GET '/restaurants' endpoint without params must return a list of restaurants"
     (with-stub! [[controller/restaurants (fn [component name tags] restaurants-coll)]]
-      (let [response (mock-get restaurant-route)
-            body     (parse-body (:body response))
+      (let [response (util/mock-get app restaurant-route)
+            body     (util/parse-body (:body response))
             calls-restaurants (bond/calls controller/restaurants)
             args-restaurants (:args (get calls-restaurants 0))]
         (is (= 1 (count calls-restaurants)))
