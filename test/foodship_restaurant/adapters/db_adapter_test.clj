@@ -8,14 +8,23 @@
 
 (use-fixtures :once (setup-custom-with-lifecycle {:memory-db {}}))
 
-(def restaurant
+(def restaurant-mapgraph
   {:restaurant/name "Mexicaníssimo" :restaurant/tags ["mexican"]})
 
-(def restaurants
+(def restaurant
+  {:name "Mexicaníssimo" :tags ["mexican"]})
+
+(def restaurants-mapgraph
   [{:restaurant/name "Mexicaníssimo" :restaurant/tags ["mexican"]}
    {:restaurant/name "Aoyama" :restaurant/tags ["japanese"]}
    {:restaurant/name "Sancho Pancho" :restaurant/tags ["spanish"]}
    {:restaurant/name "Aokitama" :restaurant/tags ["japanese"]}])
+
+(def restaurants
+  [{:name "Mexicaníssimo" :tags ["mexican"]}
+   {:name "Aoyama" :tags ["japanese"]}
+   {:name "Sancho Pancho" :tags ["spanish"]}
+   {:name "Aokitama" :tags ["japanese"]}])
 
 (deftest retrieve
   (testing "must return a restaurant with the id parameter"
@@ -26,7 +35,9 @@
 
 (deftest all
   (testing "must return a list of all restaurants"
-    (with-stub! [[mapgraph/all (fn [component] restaurants)]]
+    (with-stub! [[mapgraph/all (fn [component] restaurants-mapgraph)]]
       (let [resultset (db-adapter/all component)]
         (is (= 1 (-> mapgraph/all bond/calls count)))
         (is (= restaurants resultset))))))
+
+

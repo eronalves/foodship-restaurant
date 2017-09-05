@@ -12,6 +12,7 @@
 
   :user {:dependencies [[pjstadig/humane-test-output "0.8.2"]]
          :injections [(require 'pjstadig.humane-test-output)
-                      (pjstadig.humane-test-output/activate!)]}
+                      (pjstadig.humane-test-output/activate!)]
+         :plugins [[venantius/ultra "0.5.1"]]}
                       
   :uberjar {:aot :all}}

@@ -22,13 +22,7 @@
 (defn- mock-get [route]
   (app (-> (mock/request :get route))))
 
-(def restaurants
-  [{:restaurant/name "Mexicaníssimo" :restaurant/tags ["mexican"]}
-   {:restaurant/name "Aoyama" :restaurant/tags ["japanese"]}
-   {:restaurant/name "Sancho Pancho" :restaurant/tags ["spanish"]}
-   {:restaurant/name "Aokitama" :restaurant/tags ["japanese"]}])
-
-(def transformed-restaurants
+(def restaurants-coll
   [{:name "Mexicaníssimo" :tags ["mexican"]}
    {:name "Aoyama" :tags ["japanese"]}
    {:name "Sancho Pancho" :tags ["spanish"]}
@@ -36,7 +30,7 @@
 
 (deftest restaurants
   (testing "GET '/restaurants' endpoint without params must return a list of restaurants"
-    (with-stub! [[controller/restaurants (fn [component name tags] restaurants)]]
+    (with-stub! [[controller/restaurants (fn [component name tags] restaurants-coll)]]
       (let [response (mock-get restaurant-route)
             body     (parse-body (:body response))
             calls-restaurants (bond/calls controller/restaurants)
@@ -46,4 +40,4 @@
         (is (nil? (nth args-restaurants 1)))
         (is (nil? (nth args-restaurants 2)))
         (is (= 200 (:status response)))
-        (is (= transformed-restaurants body))))))
+        (is (= restaurants-coll body))))))
