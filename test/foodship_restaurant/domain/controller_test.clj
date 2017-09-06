@@ -23,25 +23,25 @@
 
 (deftest get-restaurant
   (testing "must be return the info of restaurant"
-    (with-stub! [[db-adapter/retrieve (fn [component id] restaurant)]]
+    (with-stub! [[db-adapter/retrieve-restaurant (fn [component id] restaurant)]]
       (let [resultset (controller/get-restaurant component 1)]
-        (is (= 1 (-> db-adapter/retrieve bond/calls count)))
+        (is (= 1 (-> db-adapter/retrieve-restaurant bond/calls count)))
         (is (= restaurant resultset)))))
 
   (testing "must be return nil when not found restaurant"
-    (with-stub! [[db-adapter/retrieve (fn [component id] nil)]]
+    (with-stub! [[db-adapter/retrieve-restaurant (fn [component id] nil)]]
       (let [resultset (controller/get-restaurant component 2)]
-        (is (= 1 (-> db-adapter/retrieve bond/calls count)))
+        (is (= 1 (-> db-adapter/retrieve-restaurant bond/calls count)))
         (is (= nil resultset))))))
 
 (deftest restaurants
   (testing "must be return filtered list of restaurants"
-    (with-stub! [[db-adapter/all (fn [component] restaurants)]
+    (with-stub! [[db-adapter/all-restaurants (fn [component] restaurants)]
                  [filter-restaurants/by-name-and-tags (fn [restaurants name tags] filtered-restaurants)]]
       (let [resultset (controller/restaurants component "mex" ["mexican"])
             calls-filter-restaurants (bond/calls filter-restaurants/by-name-and-tags)
             args-filter-restaurants (:args (get calls-filter-restaurants 0))]
-        (is (= 1 (-> db-adapter/all bond/calls count)))
+        (is (= 1 (-> db-adapter/all-restaurants bond/calls count)))
         (is (= 1 (count calls-filter-restaurants)))
         (is (= restaurants (nth args-filter-restaurants 0)))
         (is (= "mex" (nth args-filter-restaurants 1)))

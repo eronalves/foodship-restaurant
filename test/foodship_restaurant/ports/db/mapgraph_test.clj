@@ -1,8 +1,8 @@
 (ns foodship-restaurant.ports.db.mapgraph-test
-  (:require 
+  (:require
     [clojure.test :refer :all]
     [foodship-restaurant.component-fixture :refer [setup-with-lifecycle component]]
-    [foodship-restaurant.ports.db.mapgraph :as mapgraph]))
+    [foodship-restaurant.ports.db.memory_db :as mapgraph]))
 
 (use-fixtures :once (setup-with-lifecycle mapgraph/create {}))
 

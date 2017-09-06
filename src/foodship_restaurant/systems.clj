@@ -1,7 +1,7 @@
 (ns foodship-restaurant.systems
   (:require [com.stuartsierra.component :as component]
-            [foodship-restaurant.ports.handler.http-server :refer [create-http-server]]
-            [foodship-restaurant.ports.db.mapgraph :as mapgraph]))
+            [foodship-restaurant.ports.handler.http-server :as http-server]
+            [foodship-restaurant.ports.db.memory_db :as memory-db]))
 
 (defn default-system [http-port]
   (-> (component/system-map 
@@ -15,9 +15,9 @@
                          [:db])
      
      ; Ports
-     :memory-db (mapgraph/create)
+     :memory-db (memory-db/create)
  
-     :http-server (create-http-server [:domain-controller] http-port))
+     :http-server (http-server/create-http-server [:domain-controller] http-port))
  
      (component/system-using
        {:http-server [:domain-controller]})))      

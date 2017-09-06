@@ -2,13 +2,10 @@
   (:require 
     [compojure.route :as route]
     [ring.util.http-response :refer :all]
-    [compojure.api.sweet :refer :all]
     [schema.core :as s]
+    [compojure.api.sweet :refer :all]
+    [foodship-restaurant.ports.handler.routes.route-schemas :as schemas]
     [foodship-restaurant.domain.controller :as controller]))
-
-(s/defschema FilterData 
-  {(s/optional-key :name) s/Str
-   (s/optional-key :tags) [s/Str]})
 
 (defn context-routes []
   (context "/restaurants" []
@@ -16,12 +13,24 @@
 
     (GET "/" []
       :components [domain-controller]
-      :query [filter FilterData]
+      :query [filter schemas/FilterData]
       (ok (controller/restaurants domain-controller (:name filter) (:tags filter))))
+
+    (POST "/" []
+      :components [domain-controller]
+      :body [restaurant schemas/CreateAlterRestaurant]
+      :summary "Create a restaurant"
+      (ok (controller/create-restaurant domain-controller restaurant)))
 
     (context "/:id" []
       :path-params [id :- s/Int]
 
       (GET "/" []
         :components [domain-controller]
-        (ok (controller/get-restaurant domain-controller id))))))
+        (ok (controller/get-restaurant domain-controller id)))
+
+      (POST "/" []
+        :components [domain-controller]
+        :body [restaurant schemas/CreateAlterRestaurant]
+        :summary "Update a restaurant"
+        (ok (controller/update-restaurant domain-controller id restaurant))))))

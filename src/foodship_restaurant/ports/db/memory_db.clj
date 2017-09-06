@@ -1,4 +1,4 @@
-(ns foodship-restaurant.ports.db.mapgraph
+(ns foodship-restaurant.ports.db.memory_db
   (:require 
     [com.stuartsierra.mapgraph :as mg]
     [com.stuartsierra.component :as component]

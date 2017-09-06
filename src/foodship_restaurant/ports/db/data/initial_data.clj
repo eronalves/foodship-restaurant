@@ -1,7 +1,4 @@
-(ns foodship-restaurant.ports.db.data.initial-data
-  (:require [foodship-restaurant.domain.schemas :as schemas]))
-
-  ; http://www.geonames.org/childrenJSON?geonameId=3469034
+(ns foodship-restaurant.ports.db.data.initial-data)
 
 (defn get-data [] 
   [{:restaurant/id 1
