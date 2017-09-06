@@ -26,7 +26,7 @@
     (reduce-inner-maps)))
 
 (defn- reduce-coll-keywords [coll]
-  (map #(transform-keywords %) coll))
+  (map transform-keywords coll))
 
 (defn transform-keywords [val]
   (cond 
