@@ -20,7 +20,7 @@
       :components [domain-controller]
       :body [restaurant schemas/CreateAlterRestaurant]
       :summary "Create a restaurant"
-      (ok (controller/create-restaurant domain-controller restaurant)))
+      (ok (controller/create-restaurant! domain-controller restaurant)))
 
     (context "/:id" []
       :path-params [id :- s/Int]
@@ -33,4 +33,4 @@
         :components [domain-controller]
         :body [restaurant schemas/CreateAlterRestaurant]
         :summary "Update a restaurant"
-        (ok (controller/update-restaurant domain-controller id restaurant))))))
+        (ok (controller/update-restaurant! domain-controller id restaurant))))))

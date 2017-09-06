@@ -10,12 +10,12 @@
 (defn restaurants [component name tags]
   (filter-restaurants/by-name-and-tags (db/all-restaurants (:db component)) name tags))
 
-(defn create-restaurant [component restaurant]
+(defn create-restaurant! [component restaurant]
   (let [new-restaurant (assoc restaurant :id (helper-id/generate-id "restaurant"))]
-    (db/create-restaurant! (:db component) restaurant)
+    (db/create-restaurant! (:db component) new-restaurant)
     (get-restaurant component (:id new-restaurant))))
 
-(defn update-restaurant [component id restaurant]
+(defn update-restaurant! [component id restaurant]
   (let [retrieved-restaurant (get-restaurant component id)]
     (db/update-restaurant! (:db component) (merge retrieved-restaurant restaurant))
     (get-restaurant component id)))

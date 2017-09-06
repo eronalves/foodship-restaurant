@@ -1,11 +1,13 @@
 (ns foodship-restaurant.domain.controller-test
-  (:require 
+  (:require
     [clojure.test :refer :all]
     [bond.james :as bond :refer [with-stub!]]
     [foodship-restaurant.component-fixture :refer [setup-custom-with-lifecycle component]]
     [foodship-restaurant.adapters.db-adapter :as db-adapter]
     [foodship-restaurant.domain.domain-functions.filter-restaurants :as filter-restaurants]
-    [foodship-restaurant.domain.controller :as controller]))
+    [foodship-restaurant.domain.controller :as controller]
+    [foodship-restaurant.domain.domain-functions.helper-id :as helper-id]
+    [foodship-restaurant.adapters.db-adapter :as db]))
 
 (use-fixtures :once (setup-custom-with-lifecycle {:db {}}))
 
@@ -47,4 +49,30 @@
         (is (= "mex" (nth args-filter-restaurants 1)))
         (is (= ["mexican"] (nth args-filter-restaurants 2)))
         (is (= filtered-restaurants resultset))))))
+
+(def restaurant-to-create {:name "Burger King"})
+
+(def created-restaurant {:id 323 :name "Burger King"})
+
+(deftest create-restaurant
+  (testing "must be create a restaurant"
+    (with-stub! [[helper-id/generate-id (fn [model] 323)]
+                 [db/create-restaurant! (fn [component restaurant] )]
+                 [db/retrieve-restaurant (fn [component id] created-restaurant)]]
+      (let [resultset (controller/create-restaurant! component restaurant-to-create)
+            calls-generate-id (bond/calls helper-id/generate-id)
+            args-generate-id (:args (get calls-generate-id 0))
+            calls-create-restaurant! (bond/calls db/create-restaurant!)
+            args-create-restaurant (:args (get calls-create-restaurant! 0))
+            calls-retrieve-restaurant (bond/calls db/retrieve-restaurant)
+            args-retrieve-restaurant (:args (get calls-retrieve-restaurant 0))]
+        (is (= 1 (count calls-generate-id)))
+        (is (= "restaurant" (nth args-generate-id 0)))
+        (is (= 1 (count calls-create-restaurant!)))
+        (is (= {} (nth args-create-restaurant 0)))
+        (is (= created-restaurant (nth args-create-restaurant 1)))
+        (is (= 1 (count calls-retrieve-restaurant)))
+        (is (= {} (nth args-retrieve-restaurant 0)))
+        (is (= 323 (nth args-retrieve-restaurant 1)))
+        (is (= created-restaurant resultset))))))
 
