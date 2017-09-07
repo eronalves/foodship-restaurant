@@ -16,6 +16,7 @@
     (get-restaurant component (:id new-restaurant))))
 
 (defn update-restaurant! [component id restaurant]
-  (let [retrieved-restaurant (get-restaurant component id)]
-    (db/update-restaurant! (:db component) (merge retrieved-restaurant restaurant))
-    (get-restaurant component id)))
+  (if-let [retrieved-restaurant (get-restaurant component id)]
+    (let [updated-restaurant (merge retrieved-restaurant restaurant)]
+      (db/update-restaurant! (:db component) updated-restaurant)
+      updated-restaurant)))

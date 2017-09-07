@@ -51,7 +51,6 @@
         (is (= filtered-restaurants resultset))))))
 
 (def restaurant-to-create {:name "Burger King"})
-
 (def created-restaurant {:id 323 :name "Burger King"})
 
 (deftest create-restaurant
@@ -75,4 +74,21 @@
         (is (= {} (nth args-retrieve-restaurant 0)))
         (is (= 323 (nth args-retrieve-restaurant 1)))
         (is (= created-restaurant resultset))))))
+
+(def restaurant-to-update {:id 323 :name "Burger King" :tags ["fast food"]})
+(def restaurant-in-db {:id 323 :name "Burger King" })
+
+(deftest update-restaurant
+  (testing "must be update a restaurant"
+    (with-stub! [[db/retrieve-restaurant (fn [component id] restaurant-in-db)]
+                 [db/update-restaurant! (fn [component restaurant])]]
+      (let [resultset (controller/update-restaurant! component 323 restaurant-to-update)
+            calls-db-retrieve (bond/calls db/retrieve-restaurant)
+            calls-db-update (bond/calls db/update-restaurant!)
+            args-db-update (:args (get calls-db-update 0))]
+        (is (= 1 (count calls-db-retrieve)))
+        (is (= 1 (count calls-db-update)))
+        (is (= {} (nth args-db-update 0)))
+        (is (= restaurant-to-update (nth args-db-update 1)))
+        (is (= restaurant-to-update resultset))))))
 
