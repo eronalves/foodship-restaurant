@@ -47,7 +47,7 @@
         (is (= {} (nth args-insert-restaurant 0)))
         (is (= restaurant (nth args-insert-restaurant 1)))))))
 
-(deftest create-restaurant!
+(deftest update-restaurant!
   (testing "must create a restaurant calling memory db"
     (with-stub! [[memory-db/insert-restaurant! (fn [component restaurant])]]
       (let [resultset (db-adapter/update-restaurant! component restaurant)
