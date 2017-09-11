@@ -17,6 +17,7 @@
     <orderEntry type="library" name="Leiningen: cheshire:5.7.1" level="project" />
     <orderEntry type="library" name="Leiningen: circleci/bond:0.3.0" level="project" />
     <orderEntry type="library" name="Leiningen: circleci/clj-yaml:0.5.5" level="project" />
+    <orderEntry type="library" name="Leiningen: clansi:1.0.0" level="project" />
     <orderEntry type="library" name="Leiningen: clj-antlr:0.2.3" level="project" />
     <orderEntry type="library" name="Leiningen: clj-time:0.14.0" level="project" />
     <orderEntry type="library" name="Leiningen: clj-tuple:0.2.2" level="project" />

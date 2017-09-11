@@ -3,7 +3,11 @@
    [com.stuartsierra.component :as component]
    [clojure.tools.namespace.repl :refer (refresh refresh-all)]
    [environ.core :refer [env]]
+   [clansi :refer [style]]
    [foodship-restaurant.systems :refer (dev-system)]))
+
+(defmacro println-debug [& more]
+  (apply println (style "DEBUG:" :red) more))
 
 (def system nil)
 
@@ -33,3 +37,4 @@
 (defn reset []
   (stop)
   (refresh :after 'user/go))
+
