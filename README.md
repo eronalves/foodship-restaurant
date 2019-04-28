@@ -41,9 +41,7 @@ For stop the application:
 The port used for run the application is configured on profiles.clj in section { :dev :env {:http-port 3000}}.
 If you don't want to change the port for now,the port is configured with 3000 per default.
 
-Obs: Sometimes, when running (reset), the namespace of some files are not found, to solve this, run **lein clean**.
-
-Do you want to know wich api services is available before to see production configuration? See in *docs/API.md*.
+Obs: Sometimes, when running `(reset)`, the namespace of some files are not found, to solve this, run **lein clean**.
 
 ## Production
 
@@ -55,7 +53,7 @@ Build:
 
 Run:
 
-	java -jar target/balances-api-0.1.0-SNAPSHOT-standalone.jar 3000
+	java -jar target/foodship-restaurant-0.1.0-SNAPSHOT-standalone.jar 3000
 
 ## Docker
 
@@ -67,7 +65,7 @@ It's configured for production and the port used to up the application is 80. If
 	docker-compose build
 	docker-compose up
 	
-For MAC OS, the NGINX Proxy Virtual Host needs more configuration to works, when execute this command, the application will can be access through localhost. For other operational system like linux, there is no problems, I guess.
+For MAC OS, the NGINX Proxy Virtual Host needs more configuration to works, when execute this command, the application will can be access through localhost. For other operational systems like linux, there is no problems, I guess.
 
 ## Tests
 
